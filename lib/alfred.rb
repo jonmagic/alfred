@@ -38,6 +38,5 @@ class Alfred
         end
       end
     end
-
   end
 end
