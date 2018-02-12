@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/commands"
+require_relative "../lib/text_to_speech_with_cache"
+
+tts = TextToSpeechWithCache.new
+path = "#{File.dirname(__FILE__)}/../cache"
+
+Commands.all.values.each do |text|
+  next if text.nil?
+  next if text.respond_to?(:call)
+  file_path = tts.file_path(text)
+  next if file_path.exist?
+  tts.save(text, file_path)
+end
