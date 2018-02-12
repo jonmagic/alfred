@@ -7,7 +7,7 @@ class TextToSpeech
     @play_command = if RUBY_PLATFORM =~ /darwin/
       "afplay -q 1"
     elsif RUBY_PLATFORM =~ /linux/
-      "omxplayer"
+      "omxplayer -o alsa"
     end
   end
 
