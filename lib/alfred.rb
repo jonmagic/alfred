@@ -21,21 +21,27 @@ class Alfred
 
   def call
     Pocketsphinx::LiveSpeechRecognizer.new(configuration).recognize do |speech|
-      if speech.to_s == commands[:keyword][:question]
-        self.last_active_command_timestamp = Time.now
-        logger.info "recognized keyword"
-      elsif last_active_command_timestamp > Time.now - 5
-        if response = Commands[speech.to_s]
-          if response.respond_to?(:call)
-            response = response.call
-          end
+      begin
+        phrase = speech.to_sym
 
-          logger.info response
-          tts.play(response)
+        if phrase == Commands.keyword
           self.last_active_command_timestamp = Time.now
-        else
-          logger.info "unknown command: #{speech.to_s}"
+          logger.info "recognized keyword"
+        elsif last_active_command_timestamp && last_active_command_timestamp > Time.now - 5
+          if response = Commands[phrase]
+            if response.respond_to?(:call)
+              response = response.call
+            end
+
+            logger.info response
+            tts.play(response)
+            self.last_active_command_timestamp = Time.now
+          else
+            logger.info "unknown command: #{phrase}"
+          end
         end
+      rescue => error
+        logger.debug error
       end
     end
   end

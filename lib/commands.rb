@@ -16,10 +16,14 @@ module Commands
   }
 
   def self.[](key)
-    QUESTIONS_AND_ANSWERS[key]
+    QUESTIONS_AND_ANSWERS[key.to_sym]
   end
 
   def self.all
     QUESTIONS_AND_ANSWERS
+  end
+
+  def self.keyword
+    QUESTIONS_AND_ANSWERS.keys.first
   end
 end
