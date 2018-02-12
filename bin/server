@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-require_relative "../lib/alfred"
-
-Alfred.new.call
+cd /home/jonmagic/alfred
+bundle
+bundle exec ruby bin/server.rb
